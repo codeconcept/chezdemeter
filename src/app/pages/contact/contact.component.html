@@ -1,2 +1,21 @@
 <h1>Nous contacter</h1>
-<p>contact works!</p>
+<div class="option">
+    <h3>Adress</h3>
+    <div>Rue imaginaire 35000 Rennes</div>
+</div>
+<div class="option">
+    <h3>Téléphone</h3>
+    <div>Tél : 06 06 06 06 06</div>
+</div>
+<div class="option">
+    <h3>Email</h3>
+    <div>contact&#64;demeter.fr</div>
+</div>
+<div class="option">
+    Tous les mois, une soirée à thème chez Déméter
+    <div>
+        <a routerLink="/soirees" [queryParams]="{ town: 'Rennes'}">Rennes</a>
+        <br>
+        <a routerLink="/soirees" [queryParams]="{ town: 'Nantes'}">Nantes</a>
+    </div> 
+</div>
