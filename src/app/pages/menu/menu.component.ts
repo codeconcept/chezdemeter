@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { Menu, MenuService } from '../../services/menu.service';
+import { tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css'
+  styleUrl: './menu.component.css',
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
+  ngOnInit(): void {
+    this.menuService
+      .getMenu()
+      .pipe(
+        tap((menu) => {
+          console.log(menu);
+          this.menuSig.set(menu);
+        })
+      )
+      .subscribe();
+  }
+  menuSig = signal<Menu>({} as Menu);
 
+  menuService = inject(MenuService);
 }
