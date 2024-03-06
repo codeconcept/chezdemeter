@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { tap } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
+import { switchMap, tap } from 'rxjs';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-menudetails',
@@ -14,9 +15,21 @@ export class MenudetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id);
     const foodType = this.route.queryParams
-      .pipe(tap((data) => console.log({ data })))
-      .subscribe();
+      .pipe(
+        tap((data) => {
+          console.log({ dataType: data['type'], id: id! });
+        }),
+        switchMap((data: Params) => {
+          return this.menuService.getMenuItem(data['type'], id!);
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          console.log({ insideNExt: res });
+        },
+      });
   }
 
   route = inject(ActivatedRoute);
+  menuService = inject(MenuService);
 }
