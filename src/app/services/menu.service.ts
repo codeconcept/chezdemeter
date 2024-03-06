@@ -80,4 +80,27 @@ export class MenuService {
   getMenu(): Observable<Menu> {
     return of(this.menu);
   }
+
+  getMenuItem(menuItemType: string, menuItemId: string): Observable<FoodItem> {
+    let foodItem: FoodItem = { id: 'notFound', title: 'Not Found', price: 0 };
+    switch (menuItemType) {
+      case 'appetizers':
+        foodItem =
+          this.menu.appetizers.find((item) => item.id === menuItemId) ||
+          foodItem;
+        break;
+      case 'dishes':
+        foodItem =
+          this.menu.dishes.find((item) => item.id === menuItemId) || foodItem;
+        break;
+      case 'desserts':
+        foodItem =
+          this.menu.desserts.find((item) => item.id === menuItemId) || foodItem;
+        break;
+      default:
+        foodItem = { id: 'notFound', title: 'Not Found', price: 0 };
+    }
+
+    return of(foodItem);
+  }
 }
